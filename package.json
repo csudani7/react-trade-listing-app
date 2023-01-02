@@ -20,13 +20,33 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "commit": "git-cz",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "./src/**/*.+(ts|tsx)": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./src/**/*.+(css/scss/ts/tsx)": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "browserslist": {
     "production": [
@@ -41,6 +61,9 @@
     ]
   },
   "devDependencies": {
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
     "tailwindcss": "^3.2.4"
   }
 }
