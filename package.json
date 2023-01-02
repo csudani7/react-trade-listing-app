@@ -21,6 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint . --ext ts --ext tsx",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write \"./**/*.{ts,tsx,css,md,json}\"",
     "commit": "git-cz",
     "prepare": "husky install"
   },
@@ -41,6 +44,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "config": {
@@ -64,6 +77,13 @@
     "git-cz": "^4.9.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "prettier": "^2.8.1"
   }
 }
