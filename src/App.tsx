@@ -1,9 +1,22 @@
+//#Global Imports
+import { Route, Routes } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
+
+//#Local Imports
+import PrivateRoute from "./hoc/PrivateRoute";
+import { Quotes, Stocks } from "./Pages";
+
 function App() {
   return (
-    <div className="bg-red-800 text-white flex flex-col justify-center items-center h-screen space-y-40 p-16">
-      <div className="font-bold text-9xl">Hello World !</div>
-      <div className="font-medium text-9xl"> UI is Coming Soon....</div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="/" element={<Stocks />} />
+          <Route path="/stocks" element={<Stocks />} />
+          <Route path="/quotes/:symbol" element={<Quotes />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
