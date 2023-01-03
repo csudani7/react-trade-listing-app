@@ -1,5 +1,9 @@
 import React from "react";
+
+import Table from "../../components/ui/Table";
 import { getInstruments } from "../../services";
+import { tableTempData, tempColumns } from "../../utils";
+import { StocksTableRow } from "./CustomRow";
 
 const Stocks = () => {
   const [instrumentsList, setInstumentsList] = React.useState([]);
@@ -35,7 +39,7 @@ const Stocks = () => {
 
   window.console.log(instrumentsList, "instrumentsList");
 
-  return <div>Stocks Page will be here.</div>;
+  return <Table data={tableTempData} columns={tempColumns} customRow={StocksTableRow} />;
 };
 
 export default Stocks;
