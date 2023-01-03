@@ -5,6 +5,7 @@ import { Table } from "../../components";
 import { getInstruments } from "../../services";
 import { stocksTableColumns } from "../../utils";
 import { StocksTableRow } from "./CustomRow";
+import { IStocksProps } from "./Stocks";
 
 const Stocks = () => {
   const [instrumentsList, setInstumentsList] = React.useState<Array<IStocksProps.stocksData>>([]);

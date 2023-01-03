@@ -31,7 +31,7 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   customRow: CustomRow,
   isGlobalFilter = true,
   onClickHandler,
-}): JSX.Element => {
+}): React.ReactElement => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -65,8 +65,7 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                   {headerGroups.map(
                     (
                       headerGroup: {
-                        getHeaderGroupProps: () => JSX.IntrinsicAttributes &
-                          React.ClassAttributes<HTMLTableRowElement> &
+                        getHeaderGroupProps: () => React.ClassAttributes<HTMLTableRowElement> &
                           React.HTMLAttributes<HTMLTableRowElement>;
                         headers: any[];
                       },

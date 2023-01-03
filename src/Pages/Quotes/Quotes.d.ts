@@ -5,3 +5,5 @@ declare namespace IQuotesProps {
     valid_till: string;
   };
 }
+
+export { IQuotesProps };

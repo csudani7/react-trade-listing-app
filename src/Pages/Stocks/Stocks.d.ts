@@ -6,3 +6,5 @@ declare namespace IStocksProps {
     Validtill: string;
   };
 }
+
+export { IStocksProps };

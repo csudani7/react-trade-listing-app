@@ -6,10 +6,12 @@ import { Table } from "../../components";
 import { getQuotes } from "../../services";
 import { quotesTableColumns } from "../../utils";
 import { QuotesTableRow } from "./QuotesTableCustomRow";
+import { IQuotesProps } from "./Quotes";
 
 const Quotes = () => {
   const [quotesListData, setQuotesListData] = React.useState([]);
   const { symbol = "" } = useParams();
+  /* eslint-disable-next-line */
   let timer: string | number | NodeJS.Timer | undefined;
 
   const getQuotesData = () => {
