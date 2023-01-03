@@ -12,7 +12,7 @@ export const stocksTableColumns = [
     accessor: "Sector",
   },
   {
-    Header: "Validtill",
+    Header: "Valid Till",
     accessor: "Validtill",
   },
 ];
