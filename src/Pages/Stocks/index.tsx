@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Table from "../../components/ui/Table";
+import { Table } from "../../components";
 import { getInstruments } from "../../services";
 import { stocksTableColumns } from "../../utils";
 import { StocksTableRow } from "./CustomRow";

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import Table from "../../components/ui/Table";
+import { Table } from "../../components";
 import { getQuotes } from "../../services";
 import { quotesTableColumns } from "../../utils";
 import { QuotesTableRow } from "./QuotesTableCustomRow";
