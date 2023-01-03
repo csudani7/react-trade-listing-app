@@ -7,13 +7,13 @@ import { stocksTableColumns } from "../../utils";
 import { StocksTableRow } from "./CustomRow";
 
 const Stocks = () => {
-  const [instrumentsList, setInstumentsList] = React.useState([]);
+  const [instrumentsList, setInstumentsList] = React.useState<Array<IStocksProps.stocksData>>([]);
   const navigate = useNavigate();
 
   const getAllInstrumentsData = () => {
     getInstruments()
-      .then((response: any) => {
-        const instrumnetsData = CSVToJSON(response?.data);
+      .then((response) => {
+        const instrumnetsData = csvToJson(response?.data);
         setInstumentsList(instrumnetsData);
       })
       .catch((error) => {
@@ -21,18 +21,20 @@ const Stocks = () => {
       });
   };
 
-  const CSVToJSON = (data: any, delimiter = ",") => {
+  const csvToJson = (data: string, delimiter = ",") => {
     const titles = data.slice(0, data.indexOf("\n")).split(delimiter);
-    return data
+    const convertedData = data
       .slice(data.indexOf("\n") + 1)
       .split("\n")
-      .map((v: any) => {
+      .map((v: string) => {
         const values = v.split(delimiter);
         return titles.reduce(
-          (obj: any, title: any, index: any) => ((obj[title] = values[index]), obj),
+          (obj: any, title: string, index: number) => ((obj[title] = values[index]), obj),
           {},
         );
       });
+
+    return convertedData;
   };
 
   const handleOnclickOfCustomRow = (symbol: string) => {

@@ -14,7 +14,7 @@ const Quotes = () => {
 
   const getQuotesData = () => {
     getQuotes(symbol)
-      .then((response: any) => {
+      .then((response) => {
         setQuotesListData(response?.data?.payload?.[symbol]);
       })
       .catch((error) => {
@@ -32,7 +32,9 @@ const Quotes = () => {
         const currentDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
         const isAnyValidTillExpire = quotesListData
-          .map((data: any) => moment(data?.valid_till)?.diff(currentDate, "minutes"))
+          .map((data: IQuotesProps.quotesData) =>
+            moment(data?.valid_till)?.diff(currentDate, "minutes"),
+          )
           .some((minutes) => minutes < 0);
 
         if (isAnyValidTillExpire) {
