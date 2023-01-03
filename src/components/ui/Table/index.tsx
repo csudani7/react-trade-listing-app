@@ -19,13 +19,13 @@ function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }: 
           onChange(e.target.value);
         }}
         placeholder={`${count} records...`}
+        className="font-semibold text-gray-800 border-none outline-none"
       />
     </span>
   );
 }
 
 const Table: React.FunctionComponent<ITable.IProps> = ({
-  id,
   data,
   columns,
   customRow: CustomRow,
@@ -52,69 +52,70 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   );
 
   return (
-    <div className="p-12">
-      <div className="w-full">
-        <table className="w-full border border-black" {...getTableProps()}>
-          <thead className="border border-black">
-            {headerGroups.map(
-              (
-                headerGroup: {
-                  getHeaderGroupProps: () => JSX.IntrinsicAttributes &
-                    React.ClassAttributes<HTMLTableRowElement> &
-                    React.HTMLAttributes<HTMLTableRowElement>;
-                  headers: any[];
-                },
-                index: number,
-              ) => (
-                <tr
-                  {...headerGroup.getHeaderGroupProps()}
-                  key={index}
-                  className="border border-black"
-                >
-                  {headerGroup.headers.map((column, index) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      key={index}
-                      className="border border-black"
-                    >
-                      <div>
-                        <div>{column.render("Header")}</div>
-                        {column.canSort && (
-                          <div>
-                            {column.isSorted ? (
-                              <div />
-                            ) : (
-                              <div>
-                                <div />
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              ),
-            )}
-            {isGlobalFilter && (
-              <tr>
-                <th colSpan={visibleColumns.length} className="p-4 text-left">
-                  <GlobalFilter
-                    preGlobalFilteredRows={preGlobalFilteredRows}
-                    globalFilter={state.globalFilter}
-                    setGlobalFilter={setGlobalFilter}
-                  />
-                </th>
-              </tr>
-            )}
-          </thead>
-          <tbody {...getTableBodyProps()} className="border border-black">
-            {rows?.map((row: any, index: number) => {
-              prepareRow(row);
-              return <CustomRow id={id} row={row} key={index} onClickHandler={onClickHandler} />;
-            })}
-          </tbody>
-        </table>
+    <div className="px-4 sm:px-6 lg:px-8">
+      <div className="mt-8 flex flex-col">
+        <div>
+          <div className="inline-block min-w-full py-2 align-middle">
+            <div className="shadow-sm ring-1 ring-black ring-opacity-5">
+              <table
+                className="min-w-full divide-y divide-gray-300 border-spacing-0"
+                {...getTableProps()}
+              >
+                <thead>
+                  {headerGroups.map(
+                    (
+                      headerGroup: {
+                        getHeaderGroupProps: () => JSX.IntrinsicAttributes &
+                          React.ClassAttributes<HTMLTableRowElement> &
+                          React.HTMLAttributes<HTMLTableRowElement>;
+                        headers: any[];
+                      },
+                      index: number,
+                    ) => (
+                      <tr
+                        {...headerGroup.getHeaderGroupProps()}
+                        key={index}
+                        className="divide-x divide-gray-600"
+                      >
+                        {headerGroup.headers.map((column, index) => (
+                          <th
+                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                            key={index}
+                            className="sticky top-0 z-10 border-b border-gray-300 bg-gray-400 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-base font-bold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                          >
+                            <div className="w-full flex justify-between items-center">
+                              <div>{column.render("Header")}</div>
+                              {column.canSort && <div>{column.isSorted ? "🔼" : "🔽"}</div>}
+                            </div>
+                          </th>
+                        ))}
+                      </tr>
+                    ),
+                  )}
+                  {isGlobalFilter && (
+                    <tr>
+                      <th colSpan={visibleColumns.length} className="p-4 text-left">
+                        <GlobalFilter
+                          preGlobalFilteredRows={preGlobalFilteredRows}
+                          globalFilter={state.globalFilter}
+                          setGlobalFilter={setGlobalFilter}
+                        />
+                      </th>
+                    </tr>
+                  )}
+                </thead>
+                <tbody {...getTableBodyProps()} className="bg-white">
+                  {rows?.map((row: any, index: number) => {
+                    prepareRow(row);
+                    return (
+                      <CustomRow id={index} row={row} key={index} onClickHandler={onClickHandler} />
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
