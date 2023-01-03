@@ -52,8 +52,8 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   );
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col mt-8">
+    <div className="px-2 sm:px-6 lg:px-8">
+      <div className="mt-8 flex flex-col">
         <div>
           <div className="inline-block min-w-full py-2 align-middle">
             <div className="shadow-sm ring-1 ring-black ring-opacity-5">
@@ -107,14 +107,29 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                     </tr>
                   )}
                 </thead>
-                <tbody {...getTableBodyProps()} className="bg-white">
-                  {rows?.map((row: any, index: number) => {
-                    prepareRow(row);
-                    return (
-                      <CustomRow id={index} row={row} key={index} onClickHandler={onClickHandler} />
-                    );
-                  })}
-                </tbody>
+                {rows.length === 0 ? (
+                  <th
+                    colSpan={4}
+                    className="!w-full text-center font-bold text-4xl py-16"
+                    aria-rowspan={4}
+                  >
+                    No data found
+                  </th>
+                ) : (
+                  <tbody {...getTableBodyProps()} className="bg-white">
+                    {rows?.map((row: any, index: number) => {
+                      prepareRow(row);
+                      return (
+                        <CustomRow
+                          id={index}
+                          row={row}
+                          key={index}
+                          onClickHandler={onClickHandler}
+                        />
+                      );
+                    })}
+                  </tbody>
+                )}
               </table>
             </div>
           </div>
