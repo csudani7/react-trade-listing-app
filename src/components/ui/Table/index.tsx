@@ -53,7 +53,7 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <div className="mt-8 flex flex-col">
+      <div className="flex flex-col mt-8">
         <div>
           <div className="inline-block min-w-full py-2 align-middle">
             <div className="shadow-sm ring-1 ring-black ring-opacity-5">
@@ -83,7 +83,7 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                             key={index}
                             className="sticky top-0 z-10 border-b border-gray-300 bg-gray-400 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-base font-bold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
                           >
-                            <div className="w-full flex justify-between items-center">
+                            <div className="flex items-center justify-between w-full">
                               <div>{column.render("Header")}</div>
                               {column.canSort && <div>{column.isSorted ? "🔼" : "🔽"}</div>}
                             </div>
@@ -94,7 +94,10 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                   )}
                   {isGlobalFilter && (
                     <tr>
-                      <th colSpan={visibleColumns.length} className="p-4 text-left">
+                      <th
+                        colSpan={visibleColumns.length}
+                        className="py-4 text-left sm:pl-6 lg:pl-8"
+                      >
                         <GlobalFilter
                           preGlobalFilteredRows={preGlobalFilteredRows}
                           globalFilter={state.globalFilter}

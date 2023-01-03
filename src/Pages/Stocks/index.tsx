@@ -16,8 +16,8 @@ const Stocks = () => {
         const instrumnetsData = csvToJson(response?.data);
         setInstumentsList(instrumnetsData);
       })
-      .catch((error) => {
-        window.console.log(error, "error");
+      .catch(() => {
+        setInstumentsList([]);
       });
   };
 

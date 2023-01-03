@@ -17,8 +17,8 @@ const Quotes = () => {
       .then((response) => {
         setQuotesListData(response?.data?.payload?.[symbol]);
       })
-      .catch((error) => {
-        window.console.log(error, "error");
+      .catch(() => {
+        setQuotesListData([]);
       });
   };
 
