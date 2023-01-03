@@ -1,6 +1,7 @@
 import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-table";
 import React from "react";
 import { ITable } from "./Table";
+import { SortAscIcon, SortDescIcon } from "../../../assets";
 
 function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }: any) {
   const count = preGlobalFilteredRows.length;
@@ -10,7 +11,7 @@ function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }: 
   }, 200);
 
   return (
-    <span>
+    <span className="font-semibold">
       Search:{" "}
       <input
         value={value || ""}
@@ -40,7 +41,6 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
     prepareRow,
     state,
     preGlobalFilteredRows,
-    visibleColumns,
     setGlobalFilter,
   }: any = useTable(
     {
@@ -52,13 +52,22 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   );
 
   return (
-    <div className="px-2 sm:px-6 lg:px-8">
-      <div className="mt-8 flex flex-col">
-        <div>
-          <div className="inline-block min-w-full py-2 align-middle">
-            <div className="shadow-sm ring-1 ring-black ring-opacity-5">
+    <div className="px-2 py-12 sm:px-6 lg:px-8">
+      <div className="flex flex-col mt-8">
+        <div className="flex lg:justify-center">
+          <div className="inline-block w-3/4 py-2 align-middle">
+            <div className="flex flex-col justify-center shadow-sm">
+              {isGlobalFilter && (
+                <div className="w-full py-4 pl-4 mb-4 text-left border border-black rounded-lg lg:pl-8">
+                  <GlobalFilter
+                    preGlobalFilteredRows={preGlobalFilteredRows}
+                    globalFilter={state.globalFilter}
+                    setGlobalFilter={setGlobalFilter}
+                  />
+                </div>
+              )}
               <table
-                className="min-w-full divide-y divide-gray-300 border-spacing-0"
+                className="w-full overflow-hidden divide-y divide-gray-300 rounded-lg border-spacing-0 ring-1 ring-black ring-opacity-5"
                 {...getTableProps()}
               >
                 <thead>
@@ -80,30 +89,18 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                           <th
                             {...column.getHeaderProps(column.getSortByToggleProps())}
                             key={index}
-                            className="sticky top-0 z-10 border-b border-gray-300 bg-gray-400 bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-base font-bold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                            className="sticky top-0 z-10 border-b border-gray-300 bg-gray-400 bg-opacity-75 py-3.5 px-4 text-left text-base font-bold text-gray-900 backdrop-blur backdrop-filter"
                           >
                             <div className="flex items-center justify-between w-full">
                               <div>{column.render("Header")}</div>
-                              {column.canSort && <div>{column.isSorted ? "🔼" : "🔽"}</div>}
+                              {column.canSort && (
+                                <div>{column.isSorted ? <SortDescIcon /> : <SortAscIcon />}</div>
+                              )}
                             </div>
                           </th>
                         ))}
                       </tr>
                     ),
-                  )}
-                  {isGlobalFilter && (
-                    <tr>
-                      <th
-                        colSpan={visibleColumns.length}
-                        className="py-4 text-left sm:pl-6 lg:pl-8"
-                      >
-                        <GlobalFilter
-                          preGlobalFilteredRows={preGlobalFilteredRows}
-                          globalFilter={state.globalFilter}
-                          setGlobalFilter={setGlobalFilter}
-                        />
-                      </th>
-                    </tr>
                   )}
                 </thead>
                 {rows.length === 0 ? (

@@ -9,6 +9,7 @@ import { IStocksProps } from "./Stocks";
 
 const Stocks = () => {
   const [instrumentsList, setInstumentsList] = React.useState<Array<IStocksProps.stocksData>>([]);
+  const isUseEffectFired = React.useRef(false);
   const navigate = useNavigate();
 
   const getAllInstrumentsData = () => {
@@ -43,7 +44,10 @@ const Stocks = () => {
   };
 
   React.useEffect(() => {
-    getAllInstrumentsData();
+    if (!isUseEffectFired.current) {
+      isUseEffectFired.current = true;
+      getAllInstrumentsData();
+    }
   }, []);
 
   return (

@@ -2,7 +2,7 @@ import * as React from "react";
 
 export const StocksTableRow: React.FunctionComponent<any> = ({ row, onClickHandler, id }) => {
   const rowCss =
-    "border-b border-gray-200 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8";
+    "border-b border-gray-200 whitespace-nowrap py-4 px-4 text-sm font-medium text-gray-900";
   return (
     <tr
       {...row.getRowProps()}

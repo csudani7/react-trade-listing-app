@@ -10,6 +10,7 @@ import { IQuotesProps } from "./Quotes";
 
 const Quotes = () => {
   const [quotesListData, setQuotesListData] = React.useState([]);
+  const isUseEffectFired = React.useRef(false);
   const { symbol = "" } = useParams();
   /* eslint-disable-next-line */
   let timer: string | number | NodeJS.Timer | undefined;
@@ -25,7 +26,10 @@ const Quotes = () => {
   };
 
   React.useEffect(() => {
-    getQuotesData();
+    if (!isUseEffectFired.current) {
+      isUseEffectFired.current = true;
+      getQuotesData();
+    }
   }, []);
 
   React.useEffect(() => {

@@ -2,13 +2,13 @@ import * as React from "react";
 
 export const QuotesTableRow: React.FunctionComponent<any> = ({ row, id }) => {
   const rowCss =
-    "border-b border-gray-200 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8";
+    "border-b border-gray-200 whitespace-nowrap py-4 px-4 text-sm font-medium text-gray-900";
   return (
     <tr
       {...row.getRowProps()}
       className={id % 2 === 0 ? "divide-x divide-gray-200" : "bg-gray-50 divide-x divide-gray-200"}
     >
-      <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 border-b border-gray-200 whitespace-nowrap sm:pl-6 lg:pl-8">
+      <td className="px-4 py-4 text-sm font-medium text-gray-900 border-b border-gray-200 whitespace-nowrap">
         <div>{row.values.time}</div>
       </td>
 
