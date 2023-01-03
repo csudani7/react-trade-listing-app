@@ -4,18 +4,18 @@ export const StocksTableRow: React.FunctionComponent<any> = ({ row, onClickHandl
   return (
     <tr {...row.getRowProps()} className="border border-black">
       <td className="border border-black cursor-pointer">
-        <div onClick={() => onClickHandler(row.original.Symbol)}>{row.original.Symbol}</div>
+        <div onClick={() => onClickHandler(row.values.Symbol)}>{row.values.Symbol}</div>
       </td>
 
       <td className="border border-black">
-        <div>{row.original.Name}</div>
+        <div>{row.values.Name}</div>
       </td>
       <td className="border border-black">
-        <div>{row.original.Sector}</div>
+        <div>{row.values.Sector}</div>
       </td>
 
       <td className="border border-black">
-        <div>{row.original.Validtill}</div>
+        <div>{row.values.Validtill}</div>
       </td>
     </tr>
   );

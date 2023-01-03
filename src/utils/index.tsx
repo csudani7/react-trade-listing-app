@@ -1,19 +1,19 @@
 export const stocksTableColumns = [
   {
     Header: "Symbol",
-    accessor: "symbol",
+    accessor: "Symbol",
   },
   {
     Header: "Name",
-    accessor: "name",
+    accessor: "Name",
   },
   {
     Header: "Sector",
-    accessor: "sector",
+    accessor: "Sector",
   },
   {
     Header: "Validtill",
-    accessor: "validtill",
+    accessor: "Validtill",
   },
 ];
 

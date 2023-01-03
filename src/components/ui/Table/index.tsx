@@ -2,6 +2,28 @@ import { useTable, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-ta
 import React from "react";
 import { ITable } from "./Table";
 
+function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }: any) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = React.useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <span>
+      Search:{" "}
+      <input
+        value={value || ""}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder={`${count} records...`}
+      />
+    </span>
+  );
+}
+
 const Table: React.FunctionComponent<ITable.IProps> = ({
   id,
   data,
@@ -28,28 +50,6 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
     useGlobalFilter,
     useSortBy,
   );
-
-  function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }: any) {
-    const count = preGlobalFilteredRows.length;
-    const [value, setValue] = React.useState(globalFilter);
-    const onChange = useAsyncDebounce((value) => {
-      setGlobalFilter(value || undefined);
-    }, 200);
-
-    return (
-      <span>
-        Search:{" "}
-        <input
-          value={value || ""}
-          onChange={(e) => {
-            setValue(e.target.value);
-            onChange(e.target.value);
-          }}
-          placeholder={`${count} records...`}
-        />
-      </span>
-    );
-  }
 
   return (
     <div className="p-12">
