@@ -7,6 +7,8 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   data,
   columns,
   customRow: CustomRow,
+  isGlobalFilter = true,
+  onClickHandler,
 }): JSX.Element => {
   const {
     getTableProps,
@@ -50,10 +52,10 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
   }
 
   return (
-    <div>
+    <div className="p-12">
       <div className="w-full">
-        <table style={{ width: "100%" }} {...getTableProps()}>
-          <thead>
+        <table className="w-full border border-black" {...getTableProps()}>
+          <thead className="border border-black">
             {headerGroups.map(
               (
                 headerGroup: {
@@ -64,9 +66,17 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                 },
                 index: number,
               ) => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  key={index}
+                  className="border border-black"
+                >
                   {headerGroup.headers.map((column, index) => (
-                    <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index}>
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      key={index}
+                      className="border border-black"
+                    >
                       <div>
                         <div>{column.render("Header")}</div>
                         {column.canSort && (
@@ -86,25 +96,22 @@ const Table: React.FunctionComponent<ITable.IProps> = ({
                 </tr>
               ),
             )}
-            <tr>
-              <th
-                colSpan={visibleColumns.length}
-                style={{
-                  textAlign: "left",
-                }}
-              >
-                <GlobalFilter
-                  preGlobalFilteredRows={preGlobalFilteredRows}
-                  globalFilter={state.globalFilter}
-                  setGlobalFilter={setGlobalFilter}
-                />
-              </th>
-            </tr>
+            {isGlobalFilter && (
+              <tr>
+                <th colSpan={visibleColumns.length} className="p-4 text-left">
+                  <GlobalFilter
+                    preGlobalFilteredRows={preGlobalFilteredRows}
+                    globalFilter={state.globalFilter}
+                    setGlobalFilter={setGlobalFilter}
+                  />
+                </th>
+              </tr>
+            )}
           </thead>
-          <tbody {...getTableBodyProps()}>
+          <tbody {...getTableBodyProps()} className="border border-black">
             {rows?.map((row: any, index: number) => {
               prepareRow(row);
-              return <CustomRow id={id} row={row} key={index} />;
+              return <CustomRow id={id} row={row} key={index} onClickHandler={onClickHandler} />;
             })}
           </tbody>
         </table>

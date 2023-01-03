@@ -1,12 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Table from "../../components/ui/Table";
 import { getInstruments } from "../../services";
-import { tableTempData, tempColumns } from "../../utils";
+import { stocksTableColumns } from "../../utils";
 import { StocksTableRow } from "./CustomRow";
 
 const Stocks = () => {
   const [instrumentsList, setInstumentsList] = React.useState([]);
+  const navigate = useNavigate();
 
   const getAllInstrumentsData = () => {
     getInstruments()
@@ -33,13 +35,22 @@ const Stocks = () => {
       });
   };
 
+  const handleOnclickOfCustomRow = (symbol: string) => {
+    navigate(`/quotes/${symbol}`);
+  };
+
   React.useEffect(() => {
     getAllInstrumentsData();
   }, []);
 
-  window.console.log(instrumentsList, "instrumentsList");
-
-  return <Table data={tableTempData} columns={tempColumns} customRow={StocksTableRow} />;
+  return (
+    <Table
+      data={instrumentsList}
+      columns={stocksTableColumns}
+      customRow={StocksTableRow}
+      onClickHandler={handleOnclickOfCustomRow}
+    />
+  );
 };
 
 export default Stocks;

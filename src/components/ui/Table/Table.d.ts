@@ -5,6 +5,8 @@ declare namespace ITable {
     data: Array<object>;
     columns: Array<{ Header: string; accessor: string }>;
     customRow: React.ComponentType<P>;
+    onClickHandler?: (symbol: string) => void;
+    isGlobalFilter?: boolean;
   }
 }
 export { ITable };
