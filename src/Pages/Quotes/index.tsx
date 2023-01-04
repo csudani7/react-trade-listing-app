@@ -5,8 +5,7 @@ import { useParams } from "react-router-dom";
 import { Table } from "../../components";
 import { getQuotes } from "../../services";
 import { quotesTableColumns } from "../../utils";
-import { QuotesTableRow } from "./QuotesTableCustomRow";
-import { IQuotesProps } from "./Quotes";
+import { CellType } from "../../components/Table/Cell";
 
 const Quotes = () => {
   const [quotesListData, setQuotesListData] = React.useState([]);
@@ -18,7 +17,15 @@ const Quotes = () => {
   const getQuotesData = () => {
     getQuotes(symbol)
       .then((response) => {
-        setQuotesListData(response?.data?.payload?.[symbol]);
+        const qData = response?.data?.payload?.[symbol];
+        const finalData = qData.map((item: any) => {
+          return {
+            col1: { val: item.price.toFixed(2), type: CellType.Bold },
+            col2: item.time,
+            col3: item.valid_till,
+          };
+        });
+        setQuotesListData(finalData);
       })
       .catch(() => {
         setQuotesListData([]);
@@ -38,9 +45,7 @@ const Quotes = () => {
         const currentDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
         const isAnyValidTillExpire = quotesListData
-          .map((data: IQuotesProps.quotesData) =>
-            moment(data?.valid_till)?.diff(currentDate, "minutes"),
-          )
+          .map((data: any) => moment(data?.valid_till)?.diff(currentDate, "minutes"))
           .some((minutes) => minutes < 0);
 
         if (isAnyValidTillExpire) {
@@ -55,12 +60,16 @@ const Quotes = () => {
   }, [quotesListData]);
 
   return (
-    <Table
-      data={quotesListData}
-      columns={quotesTableColumns}
-      customRow={QuotesTableRow}
-      isGlobalFilter={false}
-    />
+    <div className="p-3 bg-gray-100">
+      <Table
+        data={quotesListData}
+        columns={quotesTableColumns}
+        allowSorting
+        allowPagination
+        pageSize={5}
+        isSearchable={false}
+      />
+    </div>
   );
 };
 

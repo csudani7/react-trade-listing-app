@@ -1,22 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Table } from "../../components";
 import { getInstruments } from "../../services";
 import { stocksTableColumns } from "../../utils";
-import { StocksTableRow } from "./CustomRow";
-import { IStocksProps } from "./Stocks";
+import { CellType } from "../../components/Table/Cell";
 
 const Stocks = () => {
-  const [instrumentsList, setInstumentsList] = React.useState<Array<IStocksProps.stocksData>>([]);
   const isUseEffectFired = React.useRef(false);
-  const navigate = useNavigate();
+  const [instrumentsList, setInstumentsList] = React.useState<Array<any>>([]);
 
   const getAllInstrumentsData = () => {
     getInstruments()
       .then((response) => {
         const instrumnetsData = csvToJson(response?.data);
-        setInstumentsList(instrumnetsData);
+        const finalData = instrumnetsData.map((item) => {
+          return {
+            col1: {
+              label: item.Symbol,
+              href: `/quotes/${item.Symbol}`,
+              type: CellType.Action,
+            },
+            col2: item.Name,
+            col3: item.Sector,
+            col4: item.Validtill,
+          };
+        });
+        setInstumentsList(finalData);
       })
       .catch(() => {
         setInstumentsList([]);
@@ -39,10 +48,6 @@ const Stocks = () => {
     return convertedData;
   };
 
-  const handleOnclickOfCustomRow = (symbol: string) => {
-    navigate(`/quotes/${symbol}`);
-  };
-
   React.useEffect(() => {
     if (!isUseEffectFired.current) {
       isUseEffectFired.current = true;
@@ -51,12 +56,16 @@ const Stocks = () => {
   }, []);
 
   return (
-    <Table
-      data={instrumentsList}
-      columns={stocksTableColumns}
-      customRow={StocksTableRow}
-      onClickHandler={handleOnclickOfCustomRow}
-    />
+    <div className="p-3 bg-gray-100">
+      <Table
+        data={instrumentsList}
+        columns={stocksTableColumns}
+        allowSorting
+        allowPagination
+        pageSize={5}
+        isSearchable={true}
+      />
+    </div>
   );
 };
 

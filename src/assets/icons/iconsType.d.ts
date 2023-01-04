@@ -3,6 +3,8 @@ declare namespace IIcons {
     width?: string;
     height?: string;
     fillColor?: string;
+    rotateDegree?: number;
+    className?: string;
   }
 }
 

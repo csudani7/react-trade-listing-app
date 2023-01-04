@@ -1,35 +1,38 @@
 export const stocksTableColumns = [
   {
     Header: "Symbol",
-    accessor: "Symbol",
+    accessor: "col1",
+    sortType: "basic",
   },
   {
     Header: "Name",
-    accessor: "Name",
+    accessor: "col2",
+    sortType: "basic",
   },
   {
     Header: "Sector",
-    accessor: "Sector",
+    accessor: "col3",
+    sortType: "basic",
   },
   {
     Header: "Valid Till",
-    accessor: "Validtill",
+    accessor: "col4",
+    sortType: "basic",
   },
 ];
 
 export const quotesTableColumns = [
   {
-    Header: "Time",
-    accessor: "time",
+    Header: "Price",
+    accessor: "col1",
   },
   {
-    Header: "Price",
-    accessor: "price",
-    disableSortBy: true,
+    Header: "Time",
+    accessor: "col2",
+    sortType: "basic",
   },
   {
     Header: "Valid Till",
-    accessor: "valid_till",
-    disableSortBy: true,
+    accessor: "col3",
   },
 ];
