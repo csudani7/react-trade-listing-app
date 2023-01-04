@@ -245,10 +245,15 @@ function Table({
                 </tr>
               );
             })}
+            {rows.length === 0 && (
+              <p className="p-6 font-sans text-lg text-center text-gray-900">No data found!</p>
+            )}
           </tbody>
         </table>
       </div>
-      {allowPagination && <Pagination tableProps={tableProps} className="mt-8" />}
+      {allowPagination && rows.length !== 0 && (
+        <Pagination tableProps={tableProps} className="mt-8" />
+      )}
     </div>
   );
 }
