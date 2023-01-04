@@ -8,6 +8,8 @@ import {
   useSortBy,
   UseSortByColumnProps,
   useTable,
+  useBlockLayout,
+  useResizeColumns,
 } from "react-table";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import useLayoutEffect from "../../hooks/useIsomorphicLayoutEffect";
@@ -59,6 +61,15 @@ function Table({
 
   const { width } = useWindowDimensions();
 
+  const defaultColumn = React.useMemo(
+    () => ({
+      minWidth: 30,
+      width: 400,
+      maxWidth: 600,
+    }),
+    [],
+  );
+
   useLayoutEffect(() => {
     const handleScroll = () => {
       if (ref && ref.current) {
@@ -96,7 +107,10 @@ function Table({
       // @ts-ignore
       initialState: { pageSize },
       autoResetSortBy: false,
+      defaultColumn,
     },
+    useBlockLayout,
+    useResizeColumns,
     ...plugins,
   );
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow } = tableProps;
@@ -172,6 +186,12 @@ function Table({
                               )}
                             </div>
                           )}
+                          <div
+                            {...(column as any).getResizerProps()}
+                            className={clsx(
+                              "resizer w-0.5 bg-[#0f191a] h-1/2 inline-block absolute right-0 top-1/4 translate-x-2/4",
+                            )}
+                          />
                         </div>
                       </th>
                     );
