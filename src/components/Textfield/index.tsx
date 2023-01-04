@@ -6,9 +6,9 @@ interface Props extends React.HTMLAttributes<HTMLInputElement> {
   defaultValue?: string;
   disabled?: boolean;
   error?: boolean | string;
-  errorMessage?: any;
+  errorMessage?: string;
   fullWidth?: boolean;
-  label?: any;
+  label?: string;
   name?: string;
   placeholder?: string;
   required?: boolean;

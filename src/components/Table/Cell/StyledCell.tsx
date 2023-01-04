@@ -1,4 +1,5 @@
 import React from "react";
+
 import { CellProps } from "./";
 
 interface StyledCellProps extends CellProps {

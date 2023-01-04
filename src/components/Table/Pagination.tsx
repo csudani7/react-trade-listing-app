@@ -78,6 +78,7 @@ export default function Pagination({ tableProps, className }: Props) {
     ...endPages,
     "next",
   ];
+
   return (
     <div
       className={clsx(

@@ -1,14 +1,17 @@
 import React from "react";
 import clsx from "clsx";
 import { Cell } from "react-table";
+
 import ActionCell from "./ActionCell";
 import BoldCell from "./BoldCell";
 import StyledCell from "./StyledCell";
+import TimestampCell from "./TimestampCell";
 
 export enum CellType {
   Action = "Action",
   Bold = "Bold",
   Styled = "Styled",
+  Timestamp = "Timestamp",
   Normal = "Normal",
 }
 
@@ -24,6 +27,9 @@ export function getCell(type: CellType, value: any) {
       break;
     case CellType.Bold:
       cellValue = <BoldCell {...value} />;
+      break;
+    case CellType.Timestamp:
+      cellValue = <TimestampCell {...value} />;
       break;
     case CellType.Styled:
       cellValue = <StyledCell {...value} />;

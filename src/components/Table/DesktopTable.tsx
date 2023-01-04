@@ -11,12 +11,13 @@ import {
   useBlockLayout,
   useResizeColumns,
 } from "react-table";
+
+import Cell from "./Cell";
+import { TextField } from "..";
+import Pagination from "./Pagination";
+import { ArrowIcon } from "../../assets/icons";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import useLayoutEffect from "../../hooks/useIsomorphicLayoutEffect";
-import { ArrowIcon } from "../../assets/icons";
-import Cell from "./Cell";
-import Pagination from "./Pagination";
-import TextField from "../Textfield/TextField";
 
 interface TableProps {
   data: Array<any>;
@@ -28,7 +29,7 @@ interface TableProps {
   getTextAlignment?: (index: number) => "left" | "center" | "right";
   pageSize?: number;
   mobileScrollShadowHeight?: string;
-  handleChange: any;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isSearchable: boolean;
 }
 
@@ -50,8 +51,9 @@ function Table({
   const [isLeftScrollable, setIsLeftScrollable] = React.useState(false);
   const [isRightScrollable, setIsRightScrollable] = React.useState(false);
 
-  const data: Array<any> = React.useMemo(() => _data || [], [_data]);
-  const columns: Array<any> = React.useMemo(() => _columns || [], [_columns]);
+  const data = React.useMemo(() => _data || [], [_data]);
+  const columns = React.useMemo(() => _columns || [], [_columns]);
+
   const plugins: PluginHook<any>[] = React.useMemo(() => {
     const plugins: PluginHook<any>[] = [];
     if (allowSorting) plugins.push(useSortBy);
@@ -245,11 +247,11 @@ function Table({
                 </tr>
               );
             })}
-            {rows.length === 0 && (
-              <p className="p-6 font-sans text-lg text-center text-gray-900">No data found!</p>
-            )}
           </tbody>
         </table>
+        {rows.length === 0 && (
+          <p className="p-6 font-sans text-lg text-center text-gray-900">No data found!</p>
+        )}
       </div>
       {allowPagination && rows.length !== 0 && (
         <Pagination tableProps={tableProps} className="mt-8" />

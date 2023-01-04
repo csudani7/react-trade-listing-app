@@ -7,24 +7,27 @@ import { getQuotes } from "../../services";
 import { quotesTableColumns } from "../../utils";
 import { CellType } from "../../components/Table/Cell";
 
+// eslint-disable-next-line no-undef
+let timer: string | number | NodeJS.Timer | undefined;
+
 const Quotes = () => {
   const [quotesListData, setQuotesListData] = React.useState([]);
   const isUseEffectFired = React.useRef(false);
   const { symbol = "" } = useParams();
-  /* eslint-disable-next-line */
-  let timer: string | number | NodeJS.Timer | undefined;
 
   const getQuotesData = () => {
     getQuotes(symbol)
       .then((response) => {
-        const qData = response?.data?.payload?.[symbol];
-        const finalData = qData.map((item: any) => {
-          return {
-            col1: { val: item.price.toFixed(2), type: CellType.Bold },
-            col2: item.time,
-            col3: item.valid_till,
-          };
-        });
+        const quotesData = response?.data?.payload?.[symbol];
+        const finalData = quotesData.map(
+          (item: { price: number; time: string; valid_till: string }) => {
+            return {
+              col1: { val: item.price.toFixed(2), type: CellType.Bold },
+              col2: { val: item.time, type: CellType.Timestamp },
+              col3: { val: item.valid_till, type: CellType.Timestamp },
+            };
+          },
+        );
         setQuotesListData(finalData);
       })
       .catch(() => {
@@ -41,21 +44,20 @@ const Quotes = () => {
 
   React.useEffect(() => {
     if (quotesListData?.length > 0) {
-      timer = setInterval(() => {
-        const currentDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+      const timeDiffrence = quotesListData.map((data: { col2: string; col3: string }) =>
+        moment(data?.col3)?.diff(new Date(), "seconds"),
+      );
+      const minSecond = Math.min(...timeDiffrence.filter((item) => item > 0));
 
-        const isAnyValidTillExpire = quotesListData
-          .map((data: any) => moment(data?.valid_till)?.diff(currentDate, "minutes"))
-          .some((minutes) => minutes < 0);
-
-        if (isAnyValidTillExpire) {
+      if (minSecond > 0 && minSecond !== Infinity) {
+        timer = setTimeout(() => {
           getQuotesData();
-        }
-      }, 60000);
+        }, minSecond * 1000);
+      }
     }
 
     return () => {
-      clearInterval(timer);
+      clearTimeout(timer);
     };
   }, [quotesListData]);
 

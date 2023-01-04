@@ -1,51 +1,51 @@
 import React from "react";
+import csv from "csvtojson";
 
 import { Table } from "../../components";
 import { getInstruments } from "../../services";
 import { stocksTableColumns } from "../../utils";
 import { CellType } from "../../components/Table/Cell";
 
+interface InstrumentsTypes {
+  col1: { label: string; href: string; type: CellType };
+  col2: string;
+  col3: string;
+  col4: { val: string; type: CellType };
+}
+
 const Stocks = () => {
   const isUseEffectFired = React.useRef(false);
-  const [instrumentsList, setInstumentsList] = React.useState<Array<any>>([]);
+  const [instrumentsList, setInstumentsList] = React.useState<Array<InstrumentsTypes>>([]);
 
   const getAllInstrumentsData = () => {
     getInstruments()
       .then((response) => {
-        const instrumnetsData = csvToJson(response?.data);
-        const finalData = instrumnetsData.map((item) => {
-          return {
-            col1: {
-              label: item.Symbol,
-              href: `/quotes/${item.Symbol}`,
-              type: CellType.Action,
-            },
-            col2: item.Name,
-            col3: item.Sector,
-            col4: item.Validtill,
-          };
-        });
-        setInstumentsList(finalData);
+        csv({
+          noheader: false,
+          output: "json",
+        })
+          .fromString(response?.data)
+          .then((csvRow: any) => {
+            const finalData = csvRow.map(
+              (item: { Symbol: string; Name: string; Sector: string; Validtill: any }) => {
+                return {
+                  col1: {
+                    label: item.Symbol !== "" ? item.Symbol : "N/A",
+                    href: `/quotes/${item.Symbol}`,
+                    type: CellType.Action,
+                  },
+                  col2: item.Name !== "" ? item.Name : "N/A",
+                  col3: item.Sector !== "" ? item.Sector : "N/A",
+                  col4: { val: item.Validtill, type: CellType.Timestamp },
+                };
+              },
+            );
+            setInstumentsList(finalData);
+          });
       })
       .catch(() => {
         setInstumentsList([]);
       });
-  };
-
-  const csvToJson = (data: string, delimiter = ",") => {
-    const titles = data.slice(0, data.indexOf("\n")).split(delimiter);
-    const convertedData = data
-      .slice(data.indexOf("\n") + 1)
-      .split("\n")
-      .map((v: string) => {
-        const values = v.split(delimiter);
-        return titles.reduce(
-          (obj: any, title: string, index: number) => ((obj[title] = values[index]), obj),
-          {},
-        );
-      });
-
-    return convertedData;
   };
 
   React.useEffect(() => {

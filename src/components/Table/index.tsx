@@ -1,4 +1,5 @@
 import React from "react";
+
 import DesktopTable from "./DesktopTable";
 
 interface TableProps {
@@ -28,7 +29,7 @@ function Table({
 }: TableProps) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
 
@@ -36,7 +37,7 @@ function Table({
     return data.filter((value) => {
       return (
         value?.col1?.label?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        value?.col2?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        value?.col2?.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
         value?.col3?.toString().toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
@@ -44,7 +45,7 @@ function Table({
 
   return (
     <DesktopTable
-      data={filteredData}
+      data={isSearchable ? filteredData : data}
       columns={columns}
       allowSorting={allowSorting}
       allowPagination={allowPagination}
